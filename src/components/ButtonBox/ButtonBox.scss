@@ -1,6 +1,6 @@
-.buttonBox {
+.button-box {
     width: 100%;
-    height: calc(100% - 6.875rem);
+    height: calc(100% - 9rem);
     display: grid;
     // Grid template of 5 rows and 4 columns
     grid-template: repeat(5, 1fr) / repeat(4, 1fr);

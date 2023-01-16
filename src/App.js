@@ -33,7 +33,9 @@ function App() {
         e.preventDefault();
         let value = e.target.innerHTML;
 
-        if (removeSpaces(calc.num).length < 16) {
+        if (calc.history && calc.res && !calc.num && !calc.sign) {
+            setCalc({ ...calc, history: "", sign: "", num: value, res: 0 });
+        } else if (removeSpaces(calc.num).length < 16) {
             setCalc({
                 ...calc,
                 num:
@@ -64,12 +66,25 @@ function App() {
         e.preventDefault();
         let value = e.target.innerHTML;
 
-        setCalc({
-            ...calc,
-            sign: value,
-            res: !calc.res && calc.num ? calc.num : calc.res,
-            num: 0,
-        });
+        if (calc.num || (!calc.num && !calc.sign)) {
+            setCalc({
+                ...calc,
+                res:
+                    // If all 3 variables exist, calculate and store result into variable before storing new sign
+                    calc.num && calc.res && calc.sign
+                        ? math(Number(calc.num), Number(calc.res), calc.sign)
+                        : calc.num && !calc.res
+                        ? calc.num
+                        : calc.res,
+                history: toLocaleString(
+                    calc.history && calc.res && !calc.num
+                        ? calc.history + " " + value
+                        : calc.history + " " + calc.num + " " + value
+                ),
+                num: 0,
+                sign: value,
+            });
+        }
     };
 
     let equalsClickHandler = () => {
@@ -80,6 +95,7 @@ function App() {
                     calc.num === "0" && calc.sign === "÷"
                         ? "Cannot divide by zero"
                         : math(Number(calc.num), Number(calc.res), calc.sign),
+                history: toLocaleString(calc.history + " " + calc.num),
                 sign: "",
                 num: 0,
             });
@@ -118,13 +134,17 @@ function App() {
             sign: "",
             num: 0,
             res: 0,
+            history: "",
         });
     };
 
     return (
         <>
             <Wrapper>
-                <Screen value={calc.num ? calc.num : calc.res} />
+                <Screen
+                    value={calc.num ? calc.num : calc.res}
+                    history={calc.history}
+                />
                 <ButtonBox>
                     {buttonValues.flat().map((button, i) => {
                         return (

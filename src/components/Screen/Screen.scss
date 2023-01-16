@@ -1,14 +1,32 @@
 .screen {
-    height: 6.25rem;
+    height: 9rem;
+    box-sizing: border-box;
     width: 100%;
     margin-bottom: 0.625rem;
     padding: 0 0.625rem;
     background-color: #6076882d;
     border-radius: 0.625rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: flex-end;
-    color: white;
-    font-weight: bold;
-    box-sizing: border-box;
+
+    &__history {
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        color: white;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
+    &__value {
+        height: 6.25rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        color: white;
+        font-weight: bold;
+        box-sizing: border-box;
+    }
 }
