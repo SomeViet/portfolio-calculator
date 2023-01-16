@@ -33,6 +33,7 @@ function App() {
         e.preventDefault();
         let value = e.target.innerHTML;
 
+        // If a number is clicked after "equaling", start a new calculation
         if (calc.history && calc.res && !calc.num && !calc.sign) {
             setCalc({ ...calc, history: "", sign: "", num: value, res: 0 });
         } else if (removeSpaces(calc.num).length < 16) {
@@ -54,12 +55,22 @@ function App() {
         e.preventDefault();
         let value = e.target.innerHTML;
 
-        setCalc({
-            ...calc,
-            num: calc.num.toString().includes(".")
-                ? calc.num
-                : calc.num + value,
-        });
+        // If a number is clicked after "equaling", start a new calculation
+        if (calc.history && calc.res && !calc.num && !calc.sign) {
+            setCalc({
+                ...calc,
+                history: "",
+                sign: "",
+                num: "0" + value,
+                res: 0,
+            });
+        } else
+            setCalc({
+                ...calc,
+                num: calc.num.toString().includes(".")
+                    ? calc.num
+                    : calc.num + value,
+            });
     };
 
     let signClickHandler = (e) => {
